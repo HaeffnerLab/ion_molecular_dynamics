@@ -1,0 +1,81 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[margin=0.5in]{geometry}
+
+\begin{document}
+
+\section{Theory}
+
+We follow the treatment of Zhang (PRA 76 012719) where the potential of the ion trap is assumed to be harmonic:
+
+\begin{equation}
+ V(x,y,z,t) = \frac{2V_{rf}}{{r_0}^2}(x^2 - y^2)\cos (\Omega t) + \frac{\kappa V_{dc}}{2 {z_0}^2}(2z^2 - x^2 - y^2)
+\end{equation}
+
+In the expression above, $V_{rf}$ refers to the voltage on the RF electrodes ($V_0$ in Zhang), applied with radial frequency $\Omega$. Dimensions $r_0$ and $z_0$ are radial and axial dimensions of the trap
+and $\kappa$ is a constant determined by trap geometry. Finally, $V_{dc}$ is the voltage applied to the DC electrodes ($V_{ec}$ in Zhang).
+
+The secular motion of the ion can be described with a pseudopotential approximation:
+
+\begin{equation}
+ \Psi(x,y,z) = \frac{e {V_{rf}}^2}{ m \Omega^2 {r_0}^4} (x^2 + y^2) + \frac{\kappa V_{dc}}{2 {z_0}^2}(2z^2 - x^2 - y^2)
+\end{equation}
+
+From this, the trap frequencies are:
+
+\begin{align}
+ \omega_x &= \omega_y = \sqrt{\frac{Q}{m}\left(\frac{q V_{rf}}{4 {r_0}^2} - \frac{\kappa V_{dc}}{{z_0}^2} \right)}\\
+ \omega_z &= \sqrt{\frac{Q}{m}\frac{2 \kappa V_{dc}}{ {z_0}^2 }}
+\end{align}
+
+where the stability parameter $q$ is defined as:
+
+\begin{equation}
+ q = \frac{2 Q V_{rf}}{ m r^2_0 \Omega^2}
+\end{equation}
+
+In this model, the radial trap frequencies are degenerate, which may lead to poor laser cooling. In order to lift the degeneracy of the radial modes, we
+apply an additional static bias $V_{bias}$ on the RF electrodes as follows:
+
+\begin{equation}
+ V(x,y,z,t) = \frac{2V_{rf}}{{r_0}^2}(x^2 - y^2)\cos (\Omega t) + \frac{\kappa V_{dc}}{2 {z_0}^2}(2z^2 - x^2 - y^2) + \frac{\kappa V_{bias}}{2 {z_0}^2}(x^2 - y^2)
+\end{equation}
+
+The Laplace's equation $\triangle V = 0$ still holds with the additional bias term. The trap frequencies are now non-degenerate and are given by:
+
+\begin{align}
+ \omega_x &= \sqrt{\frac{Q}{m}\left(\frac{q V_{rf}}{4 {r_0}^2} - \frac{\kappa (V_{dc} - V_{bias})}{{z_0}^2} \right)}\\
+ \omega_y &= \sqrt{\frac{Q}{m}\left(\frac{q V_{rf}}{4 {r_0}^2} - \frac{\kappa (V_{dc} + V_{bias})}{{z_0}^2} \right)}\\
+ \omega_z &= \sqrt{\frac{Q}{m}\frac{2 \kappa V_{dc}}{ {z_0}^2 }}
+\end{align}
+
+It is convinient to write the potential in terms of the trap frequencies instead of the geometrical dimensions:
+
+\begin{align}
+ \frac{\kappa V_{dc}}{ 2 {z_0}^2} &= \frac{1}{4} \left( \frac{m}{Q} \right) {\omega_z}^2 \\
+ \frac{\kappa V_{bias}}{ 2 {z_0}^2} &= \frac{1}{4} \left( \frac{m}{Q} \right) {\omega_{bias}}^2 \\
+ \frac{2V_{rf}}{{r_0}^2} &= \sqrt{8} \Omega \left( \frac{m}{Q} \right) \omega_\bot \\
+ \omega_x &= \sqrt{\omega_\bot^2 - \frac{1}{2} \omega_z^2 + \frac{1}{2} \omega_{bias}^2} \\
+ \omega_y &= \sqrt{\omega_\bot^2 - \frac{1}{2} \omega_z^2 - \frac{1}{2} \omega_{bias}^2}
+\end{align}
+
+If one is given $(\omega_x, \omega_y, \omega_z)$, then:
+
+\begin{align}
+  \omega_{bias}^2 = \omega_x^2 - \omega_y^2\\
+  \omega_\bot = \sqrt{\omega_x^2 + \omega_y^2 + \omega_z^2}
+\end{align}
+
+Therefore, the potential may be written as:
+
+\begin{align}
+ V(x,y,z,t) &= \sqrt{8} \Omega \left( \frac{m}{Q} \right)\sqrt{\omega_x^2 + \omega_y^2 + \omega_z^2} \left( x^2 - y^2 \right) \cos (\Omega t)  
+ + \frac{1}{4} \left( \frac{m}{Q} \right) {\omega_z}^2(2z^2 - x^2 - y^2)
+ + \frac{1}{4} \left( \frac{m}{Q} \right) \left( \omega_x^2 - \omega_y^2 \right) (x^2 - y^2) \\
+	    &= \frac{1}{4} \left( \frac{m}{Q} \right) \left[\sqrt{128} \Omega \sqrt{\omega_x^2 + \omega_y^2 + \omega_z^2} \left( x^2 - y^2 \right) \cos (\Omega t)
+	    +\omega_z^2 (2z^2 - x^2 - y^2) + \left( \omega_x^2 - \omega_y^2 \right) (x^2 - y^2)
+	    \right]
+\end{align}
+
+\end{document}
