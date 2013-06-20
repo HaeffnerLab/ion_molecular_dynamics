@@ -20,8 +20,8 @@ print 'Simulation took {0:.2f} seconds'.format(finish_time - start_time)
 
 from matplotlib import pyplot
 time_axis = np.arange(output.shape[1]) * p.timestep * 10**3
-pyplot.plot(time_axis, output[0, :, 2], '-r')
-pyplot.plot(time_axis, output[1, :, 2], '-g')
+for i in range(p.number_ions):
+    pyplot.plot(time_axis, output[i, :, 2])
 
 print output[:, -1, 2] * 10**6
 

@@ -24,9 +24,9 @@ cdef void calculate_acceleration(double [:, :] position, double [:, :] velocity,
     cdef double Fx, Fy, Fz
     #acceleration due to the trap
     for i in range(NUMBER_IONS):
-        current_acceleration[i, 0] = (-1/2.0) *( (2 * W_DRIVE * sqrt(W_X ** 2 + W_Y **2 + W_Z**2)) * position[i, 0] * cos (W_DRIVE * time) + (- W_Z**2 + W_X**2 - W_Y**2) *  position[i, 0])  
-        current_acceleration[i, 1] = (-1/2.0) *( - (2 * W_DRIVE *  sqrt(W_X ** 2 +W_Y **2 + W_Z**2)) * position[i, 1] * cos (W_DRIVE * time) + (- W_Z**2 - W_X**2 + W_Y**2) *  position[i, 1]) 
-        current_acceleration[i, 2] = (-1/2.0) *( 2 * W_Z**2 *  position[i, 2])
+        current_acceleration[i, 0] = ( (1/2.)*(-W_X**2 + W_Y**2 + W_Z**2) - W_DRIVE * sqrt(W_X**2 + W_Y**2 + W_Z**2) * cos (W_DRIVE * time)) * position[i, 0]
+        current_acceleration[i, 1] = ( (1/2.)*( W_X**2 - W_Y**2 + W_Z**2) + W_DRIVE * sqrt(W_X**2 + W_Y**2 + W_Z**2) * cos (W_DRIVE * time)) * position[i, 1]
+        current_acceleration[i, 2] = - W_Z**2 *  position[i, 2]
         #acceleration due to the coulombic repulsion
     for i in range(NUMBER_IONS):
         for j in range(i + 1, NUMBER_IONS):
