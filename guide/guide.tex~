@@ -73,7 +73,7 @@ Therefore, the potential may be written as:
  V(x,y,z,t) &= \sqrt{8} \Omega \left( \frac{m}{Q} \right)\sqrt{\omega_x^2 + \omega_y^2 + \omega_z^2} \left( x^2 - y^2 \right) \cos (\Omega t)  
  + \frac{1}{4} \left( \frac{m}{Q} \right) {\omega_z}^2(2z^2 - x^2 - y^2)
  + \frac{1}{4} \left( \frac{m}{Q} \right) \left( \omega_x^2 - \omega_y^2 \right) (x^2 - y^2) \\
-	    &= \frac{1}{4} \left( \frac{m}{Q} \right) \left[\frac{\Omega}{\sqrt{2}}\sqrt{\omega_x^2 + \omega_y^2 + \omega_z^2} \left( x^2 - y^2 \right) \cos (\Omega t)
+	    &= \frac{1}{4} \left( \frac{m}{Q} \right) \left[\sqrt{128} \Omega \sqrt{\omega_x^2 + \omega_y^2 + \omega_z^2} \left( x^2 - y^2 \right) \cos (\Omega t)
 	    +\omega_z^2 (2z^2 - x^2 - y^2) + \left( \omega_x^2 - \omega_y^2 \right) (x^2 - y^2)
 	    \right]
 \end{align}
