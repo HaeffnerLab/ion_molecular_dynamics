@@ -11,7 +11,7 @@ starting_positions = np.zeros((p.number_ions, 3))
 
 starting_positions[:, 0] = p.number_ions * [0]
 starting_positions[:, 1] = p.number_ions * [0]
-starting_positions[:, 2] = 10**-6 * np.array([-20, -10, 0, 10, 20])
+starting_positions[:, 2] = 10**-6 * np.array([-10, 0, 10])
 start_time = t = time.time()
 output = simulation.simulation(starting_positions, random_seeding = 0)
 finish_time = time.time()
