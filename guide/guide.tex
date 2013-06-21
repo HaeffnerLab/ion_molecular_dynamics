@@ -7,6 +7,8 @@
 
 \section{Theory}
 
+\subsection{Motion in the Trap}
+
 We follow the treatment of Leibfried et al. where the potential of the ion trap is assumed to be harmonic:
 \begin{equation}
  \Phi(x,y,z,t) = \frac{1}{2} U_{dc}(2z^2 - x^2 - y^2) + \frac{1}{2}U_{rf}(x^2 - y^2)\cos (\omega_{rf} t)
@@ -59,4 +61,21 @@ This leads to the following classical equations of motion:
 \ddot{z}&=-\omega_z^2z.
 \end{align}
 
+\subsection{Coulomb Repulsion}
+
+The coulomb potential for N ions is given by:
+
+\begin{align}
+ \Phi_c &= \displaystyle\sum_{i < j}\frac{e^2}{4 \pi \epsilon_0} \frac{1}{| r_i - r_j |} \\
+	&= \displaystyle\sum_{i < j}\frac{e^2}{4 \pi \epsilon_0} \frac{1}{\sqrt{(x_i - x_j)^2 + (y_i - y_j)^2 +  (z_i - z_j)^2}}
+\end{align}
+
+This leads to the following accelerations experienced by the particle $i$:
+\begin{align}
+\ddot{x_i}&=\frac{1}{m} \displaystyle\sum_{j \neq i}\frac{e^2}{4 \pi \epsilon_0} \frac{(x_i - x_j)}{\left((x_i - x_j)^2 + (y_i - y_j)^2 +  (z_i - z_j)^2\right)^{\frac{3}{2}}}\\
+\ddot{y_i}&=\frac{1}{m} \displaystyle\sum_{j \neq i}\frac{e^2}{4 \pi \epsilon_0} \frac{(y_i - y_j)}{\left((x_i - x_j)^2 + (y_i - y_j)^2 +  (z_i - z_j)^2\right)^{\frac{3}{2}}}\\
+\ddot{z_i}&=\frac{1}{m} \displaystyle\sum_{j \neq i}\frac{e^2}{4 \pi \epsilon_0} \frac{(z_i - z_j)}{\left((x_i - x_j)^2 + (y_i - y_j)^2 +  (z_i - z_j)^2\right)^{\frac{3}{2}}}\\
+\end{align}
+
+\subsection{Laser Interaction}
 \end{document}

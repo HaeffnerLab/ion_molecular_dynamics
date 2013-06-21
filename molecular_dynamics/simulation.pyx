@@ -30,6 +30,7 @@ cdef void calculate_acceleration(double [:, :] position, double [:, :] velocity,
         #acceleration due to the coulombic repulsion
     for i in range(NUMBER_IONS):
         for j in range(i + 1, NUMBER_IONS):
+            #the double for loop iterations over unique pairs
             dx = position[i, 0] - position[j, 0]
             dy = position[i, 1] - position[j, 1]
             dz = position[i, 2] - position[j, 2]
@@ -39,6 +40,7 @@ cdef void calculate_acceleration(double [:, :] position, double [:, :] velocity,
             Fx = COULOMB_K * dx / (distance_sq)**(3./2.)
             Fy = COULOMB_K * dy / (distance_sq)**(3./2.)
             Fz = COULOMB_K * dz / (distance_sq)**(3./2.)
+            #acceleartion is equal and opposite
             current_acceleration[i, 0] += Fx / MASS
             current_acceleration[i, 1] += Fy / MASS
             current_acceleration[i, 2] += Fz / MASS
