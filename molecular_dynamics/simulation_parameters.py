@@ -15,4 +15,4 @@ class simulation_parameters(object):
     total_steps = int(simulation_duration / timestep)
     #ion parameters
     mass = 40 * 1.6605402e-27 #40 amu in kg
-    coulomb_k = 2.30707955552e-28 # k =  U.e**2 / (4.0 * U.pi * U.eps0) 
+    coulomb_coeff = 2.30707955552e-28 # k =  U.e**2 / (4.0 * U.pi * U.eps0) 

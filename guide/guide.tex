@@ -78,4 +78,64 @@ This leads to the following accelerations experienced by the particle $i$:
 \end{align}
 
 \subsection{Laser Interaction}
+
+We model the interaction of the laser with a two-level atom using a general form of the Einstein equations (Cohen Tannoudj p286). 
+In terms of the populations of the excited and ground states $p_e$ and $p_g$ (called $\sigma_{bb}$ and $\sigma_{aa}$ in the reference):
+
+\begin{align}
+\frac{dp_{e}}{dt} &=   -\Gamma p_e + \Gamma_l (p_g - p_e) \\
+\frac{dp_{g}}{dt} &=   +\Gamma p_e + \Gamma_l (p_e - p_g)
+\end{align}
+
+where $\Gamma$ is the rate of the spontaneous emission and $\Gamma_l$ is the rate of laser interaction, which is proportional to the laser intensity. 
+In the steady state, $\frac{dp_{g}}{dt} = \frac{dp_{e}}{dt} = 0$. Using $p_g = 1 - p_e$, we have:
+
+\begin{equation}
+p_e= \frac{\Gamma_l}{2 \Gamma_l + \Gamma} = \frac{1}{2} \frac{2 \Gamma_l}{2 \Gamma_l + \Gamma} 
+\end{equation}
+
+Our goal is to identify the laser coupling rate $\Gamma_l$ in terms of saturation and detuning. To accomplish this we consider optical bloch equations (see atom photon interaction p369).
+The steady state solution is:
+
+\begin{equation}
+p_e = \frac{1}{2} \frac{s_{\text{eff}}}{s_{\text{eff}}+1}
+\end{equation}
+
+allowing us to identify
+
+\begin{equation}
+\Gamma_l = \Gamma \frac{s_{\text{eff}}}{2} 
+\end{equation}
+
+where the saturation parameter $s_{\text{eff}}$ is defined in terms of the rabi frequency $\Omega$ and the detuning $\Delta$.
+
+\begin{equation}
+s_{\text{eff}} = \frac{\frac{\Omega^2}{2}}{\Delta^2 + \frac{\Gamma^2}{4}}
+\end{equation}
+
+It is common to define the saturation parameter $s_0$ as:
+
+\begin{equation}
+s_0 = \frac{2 \Omega^2}{\Gamma^2} = s_{\text{eff}} \left(\Delta = 0 \right)
+\end{equation}
+
+In this case,
+
+\begin{equation}
+s_{\text{eff}} = \frac{s_0}{\left(\frac{2 \Delta}{\Gamma}\right)^2 + 1}
+\end{equation}
+
+Then the laser coupling rate is given by:
+
+\begin{equation}
+ \Gamma_l = \frac{\Gamma}{2} \frac{s_0}{\left(\frac{2 \Delta}{\Gamma}\right)^2 + 1}
+\end{equation}
+
+If we start in the ground state, then per unit time $dt$, the probability for the ion to get excited is:
+
+
+
+
+
+
 \end{document}

@@ -37,6 +37,6 @@ class equilibrium_positions(object):
         takes the trap frequency in Hz and returns the axial positions of an ion chain for that frequency
         '''
         w = 2 * np.pi * trap_frequency
-        length_scale = (p.coulomb_k / (w**2 * p.mass))**(1./3)
+        length_scale = (p.coulomb_coeff / (w**2 * p.mass))**(1./3)
         lengths = length_scale * np.array(cls.position_dict[number_ions])
         return lengths

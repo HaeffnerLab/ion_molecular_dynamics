@@ -24,13 +24,14 @@ from matplotlib import pyplot
 time_axis = np.arange(output.shape[1]) * p.timestep * 10**6
 # for i in range(p.number_ions):
 #     pyplot.plot(time_axis, output[i, :, 0])
-pyplot.plot(time_axis, 10**6 * output[0, :, 0], label = 'left ion')
+# pyplot.plot(time_axis, 10**6 * output[0, :, 0], label = 'left ion')
 pyplot.plot(time_axis, 10**6 * output[-1, :, 0], label = 'right ion')
+# pyplot.plot(time_axis, 10**6 * output[2, :, 0], label = 'center ion')
 pyplot.title(r"5 ions, x - kick propagation, f_z = {} KHz".format(p.f_z / 10.**3), fontsize = 30)
 pyplot.xlabel(r'$\mu s$', fontsize = 30)
 pyplot.ylabel(r'Displacement along x, $\mu m$', fontsize = 30)
 pyplot.tick_params(axis='both', labelsize = 20)
-pyplot.xlim(0,200)
+# pyplot.xlim(0,200)
 pyplot.legend(fontsize = 20)
 
 pyplot.show()

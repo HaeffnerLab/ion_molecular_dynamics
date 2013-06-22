@@ -7,49 +7,120 @@
 
 \section{Theory}
 
-We follow the treatment of Zhang (PRA 76 012719) where the potential of the ion trap is assumed to be harmonic:
+\subsection{Motion in the Trap}
 
+We follow the treatment of Leibfried et al. where the potential of the ion trap is assumed to be harmonic:
 \begin{equation}
- V(x,y,z,t) = \frac{2V_{rf}}{{r_0}^2}(x^2 - y^2)\cos (\Omega t) + \frac{\kappa V_{dc}}{2 {z_0}^2}(2z^2 - x^2 - y^2)
+ \Phi(x,y,z,t) = \frac{1}{2} U_{dc}(2z^2 - x^2 - y^2) + \frac{1}{2}U_{rf}(x^2 - y^2)\cos (\omega_{rf} t)
 \end{equation}
+In the expression above, $U_{dc}$ is the potential applied to the DC electrodes ($U$ in Leibfried) and $U_{rf}$ refers to the potential on the RF electrodes ($\tilde{U}$ in Leibfried), applied with radial frequency $\omega_{rf}$. We use the special choice of coefficients $\alpha=\beta=-1, \gamma=2$ and $\alpha'=-\beta'=1, \gamma'=0$.
 
-In the expression above, $V_{rf}$ refers to the voltage on the RF electrodes ($V_0$ in Zhang), applied with radial frequency $\Omega$. Dimensions $r_0$ and $z_0$ are radial and axial dimensions of the trap
-and $\kappa$ is a constant determined by trap geometry. Finally, $V_{dc}$ is the voltage applied to the DC electrodes ($V_{ec}$ in Zhang).
-
-The secular motion of the ion can be described with a pseudopotential approximation:
-
+The secular motion of the ion can be described with a pseudopotential approximation. The potential energy yields
 \begin{equation}
- \Psi(x,y,z) = \frac{e {V_{rf}}^2}{ m \Omega^2 {r_0}^4} (x^2 + y^2) + \frac{\kappa V_{dc}}{2 {z_0}^2}(2z^2 - x^2 - y^2)
+ \Psi(x,y,z) =  \frac{1}{2}eU_{dc}(2z^2 - x^2 - y^2) + \frac{e^2U_{rf}^2}{4 m \omega_{rf}^2} (x^2 + y^2)
 \end{equation}
-
 From this, the trap frequencies are:
-
 \begin{align}
- \omega_x &= \omega_y = \sqrt{\frac{Q}{m}\left(\frac{q V_{rf}}{4 {r_0}^2} - \frac{\kappa V_{dc}}{{z_0}^2} \right)}\\
- \omega_z &= \sqrt{\frac{Q}{m}\frac{2 \kappa V_{dc}}{ {z_0}^2 }}
+ \omega_x &= \omega_y = \sqrt{\frac{e}{m}\left(\frac{e U_{rf}^2}{2m\omega_{rf}^2}-U_{dc} \right)}\\
+ \omega_z &= \sqrt{\frac{2eU_{dc}}{m}}.
 \end{align}
 
 In this model, the radial trap frequencies are degenerate, which may lead to poor laser cooling. In order to lift the degeneracy of the radial modes, we
-apply an additional static bias $V_{bias}$ on the RF electrodes as follows:
+apply an additional static bias $U_{bias}$ on the RF electrodes as follows:
+\begin{equation}
+ \Phi(x,y,z,t) = \frac{1}{2} U_{dc}(2z^2 - x^2 - y^2) + \frac{1}{2}U_{bias}(x^2 - y^2) + \frac{1}{2}U_{rf}(x^2 - y^2)\cos (\omega_{rf} t)
+\end{equation}
+The Laplace's equation $\triangle\Phi= 0$ still holds with the additional bias term. The trap frequencies are now non-degenerate and are given by:
+\begin{align}
+ \omega_x &= \sqrt{\frac{e}{m}\left(\frac{e U_{rf}^2}{2m\omega_{rf}^2}-U_{dc} +U_{bias}\right)}\\
+ \omega_y &= \sqrt{\frac{e}{m}\left(\frac{e U_{rf}^2}{2m\omega_{rf}^2}-U_{dc} -U_{bias}\right)}\\
+ \omega_z &= \sqrt{\frac{2eU_{dc}}{m}}.
+\end{align}
+
+It is convenient to write the potential in terms of the trap frequencies instead of the geometrical dimensions
+\begin{align}
+\omega_z^2&=\frac{2eU_{dc}}{m}\\
+\omega_x^2+\omega_y^2+\omega_z^2&=\frac{e^2U_{rf}^2}{m^2\omega_{rf}^2}\\
+\omega_x^2-\omega_y^2&=\frac{2eU_{bias}}{m},
+\end{align}
+leading to the following replacements of the voltages in terms of the desired effective trap frequencies $(\omega_x, \omega_y, \omega_z)$:
+\begin{align}
+U_{dc}&=\frac{1}{2}\frac{m}{e}\omega_z^2\\
+U_{rf}&=\frac{m}{e}\omega_{rf}\sqrt{\omega_x^2+\omega_y^2+\omega_z^2}\\
+U_{bias}&=\frac{1}{2}\frac{m}{e}(\omega_x^2-\omega_y^2).
+\end{align}
+Therefore, the potential may be written as:
+\begin{align}
+ \Phi(x,y,z,t) &= \frac{m}{4e} \left[2 \omega_{rf} \sqrt{\omega_x^2 + \omega_y^2 + \omega_z^2} \left( x^2 - y^2 \right) \cos (\omega_{rf} t)
++\omega_z^2 (2z^2 - x^2 - y^2) + \left( \omega_x^2 - \omega_y^2 \right) (x^2 - y^2) \right].
+\end{align}
+This leads to the following classical equations of motion:
+\begin{align}
+\ddot{x}&=\left[\frac{1}{2}(-\omega_x^2+\omega_y^2+\omega_z^2)-\omega_{rf}\sqrt{\omega_x^2+\omega_y^2+\omega_z^2}\cos(\omega_{rf}t)\right]x\\
+\ddot{y}&=\left[\frac{1}{2}(\omega_x^2-\omega_y^2+\omega_z^2)+\omega_{rf}\sqrt{\omega_x^2+\omega_y^2+\omega_z^2}\cos(\omega_{rf}t)\right]y\\
+\ddot{z}&=-\omega_z^2z.
+\end{align}
+
+\subsection{Coulomb Repulsion}
+
+The coulomb potential for N ions is given by:
+
+\begin{align}
+ \Phi_c &= \displaystyle\sum_{i < j}\frac{e^2}{4 \pi \epsilon_0} \frac{1}{| r_i - r_j |} \\
+	&= \displaystyle\sum_{i < j}\frac{e^2}{4 \pi \epsilon_0} \frac{1}{\sqrt{(x_i - x_j)^2 + (y_i - y_j)^2 +  (z_i - z_j)^2}}
+\end{align}
+
+This leads to the following accelerations experienced by the particle $i$:
+\begin{align}
+\ddot{x_i}&=\frac{1}{m} \displaystyle\sum_{j \neq i}\frac{e^2}{4 \pi \epsilon_0} \frac{(x_i - x_j)}{\left((x_i - x_j)^2 + (y_i - y_j)^2 +  (z_i - z_j)^2\right)^{\frac{3}{2}}}\\
+\ddot{y_i}&=\frac{1}{m} \displaystyle\sum_{j \neq i}\frac{e^2}{4 \pi \epsilon_0} \frac{(y_i - y_j)}{\left((x_i - x_j)^2 + (y_i - y_j)^2 +  (z_i - z_j)^2\right)^{\frac{3}{2}}}\\
+\ddot{z_i}&=\frac{1}{m} \displaystyle\sum_{j \neq i}\frac{e^2}{4 \pi \epsilon_0} \frac{(z_i - z_j)}{\left((x_i - x_j)^2 + (y_i - y_j)^2 +  (z_i - z_j)^2\right)^{\frac{3}{2}}}\\
+\end{align}
+
+\subsection{Laser Interaction}
+
+We model the interaction of the laser with a two-level atom using a general form of the Einstein equations (Cohen Tannoudj p286). 
+In terms of the populations of the excited and ground states $p_e$ and $p_g$ (called $\sigma_{bb}$ and $\sigma_{aa}$ in the reference):
+
+\begin{align}
+\frac{dp_{e}}{dt} &=   -\Gamma p_e \\
+\frac{dp_{g}}{dt} &=   +\Gamma p_e \\
+\end{align}
+
+where $\Gamma$ is the rate of the spontaneous emission and $\Gamma'$. 
+In the steady state, $\frac{dp_{g}}{dt} = \frac{dp_{e}}{dt} = 0$. Using $p_g = 1 - p_e$, we have:
 
 \begin{equation}
- V(x,y,z,t) = \frac{2V_{rf}}{{r_0}^2}(x^2 - y^2)\cos (\Omega t) + \frac{\kappa V_{dc}}{2 {z_0}^2}(2z^2 - x^2 - y^2) + \frac{\kappa V_{bias}}{2 {z_0}^2}(x^2 - y^2)
+p_e= \frac{\Gamma_l}{2 \Gamma_l + \gamma_g} = \frac{1}{2} \frac{2 \Gamma_l}{2 \Gamma_l + \gamma_g} 
 \end{equation}
 
-The Laplace's equation $\triangle V = 0$ still holds with the additional bias term. The trap frequencies are now non-degenerate and are given by:
+Now if we consider optical bloch equations (see atom photon interaction p369), then in the steady state:
 
-\begin{align}
- \omega_x &= \sqrt{\frac{Q}{m}\left(\frac{q V_{rf}}{4 {r_0}^2} - \frac{\kappa (V_{dc} - V_{bias})}{{z_0}^2} \right)}\\
- \omega_y &= \sqrt{\frac{Q}{m}\left(\frac{q V_{rf}}{4 {r_0}^2} - \frac{\kappa (V_{dc} + V_{bias})}{{z_0}^2} \right)}\\
- \omega_z &= \sqrt{\frac{Q}{m}\frac{2 \kappa V_{dc}}{ {z_0}^2 }}
-\end{align}
+\begin{equation}
+p_e = \frac{1}{2} \frac{s_{\text{eff}}}{s_{\text{eff}}+1}
+\end{equation}
 
-It is convinient to write the potential in terms of the trap frequencies instead of the geometrical dimensions:
+allowing us to identify
 
-\begin{align}
- \frac{1}{4} \left( \frac{m}{Q} \right)
-\end{align}
+\begin{equation}
+\Gamma_l = \gamma_g \frac{s_{\text{eff}}}{2} 
+\end{equation}
 
+where the saturation parameter is defined as:
 
+\begin{equation}
+s_{\text{eff}} = \frac{\frac{\Omega^2}{2}}{\Delta^2 + \frac{\Gamma^2}{4}}
+\end{equation}
 
+It is common to define the saturation parameter $s_0$ as:
+
+\begin{equation}
+s_0 = \frac{2 \Omega^2}{\Gamma^2} = s_{\text{eff}} \left(\Delta = 0 \right)
+\end{equation}
+
+In this case,
+
+\begin{equation}
+s_{\text{eff}} = \frac{s_0}{\left(\frac{2 \Delta}{\Gamma}\right)^2 + 1}
+\end{equation}
 \end{document}

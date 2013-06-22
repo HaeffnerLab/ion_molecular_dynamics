@@ -10,7 +10,7 @@ cdef double W_X = p.f_x * 2 * np.pi
 cdef double W_Y = p.f_y * 2 * np.pi
 cdef double W_Z = p.f_z * 2 * np.pi
 cdef double MASS = p.mass
-cdef double COULOMB_K = p.coulomb_k
+cdef double COULOMB_COEFF = p.coulomb_coeff
 cdef double VEL_DAMPING = p.damping
 
 
@@ -37,9 +37,9 @@ cdef void calculate_acceleration(double [:, :] position, double [:, :] velocity,
             distance_sq = dx**2 + dy**2 + dz**2
             if distance_sq == 0:
                 raise Exception("Distance between ions is 0")
-            Fx = COULOMB_K * dx / (distance_sq)**(3./2.)
-            Fy = COULOMB_K * dy / (distance_sq)**(3./2.)
-            Fz = COULOMB_K * dz / (distance_sq)**(3./2.)
+            Fx = COULOMB_COEFF * dx / (distance_sq)**(3./2.)
+            Fy = COULOMB_COEFF * dy / (distance_sq)**(3./2.)
+            Fz = COULOMB_COEFF * dz / (distance_sq)**(3./2.)
             #acceleartion is equal and opposite
             current_acceleration[i, 0] += Fx / MASS
             current_acceleration[i, 1] += Fy / MASS
