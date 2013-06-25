@@ -131,7 +131,12 @@ Then the laser coupling rate is given by:
  \Gamma_l = \frac{\Gamma}{2} \frac{s_0}{\left(\frac{2 \Delta}{\Gamma}\right)^2 + 1}
 \end{equation}
 
-If we start in the ground state, then per unit time $dt$, the probability for the ion to get excited is:
+If we start in the ground state, then per unit time $dt$, the probability for the ion to get excited is $p_\text{exc} = \Gamma_l dt$. Similarly, starting from the excited state,
+the total rate to be deexcited is $\left( \Gamma_l + \Gamma \right) dt$, which is the sum of the rates of stimulated emission and spontaneous emission. 
+
+This model of atom photon interaction will capture the correct steady state population and the rates of absrorption and emission. It will not reproduce the correct
+autocorrelation functions, however, as those result from the coherent nature of the interaction and should be modeled via (8-level) Bloch equations. Since such dynamics
+occur much faster than the trap frequency, the simulation results should not be significantly affected.
 
 
 
