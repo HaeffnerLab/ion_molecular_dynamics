@@ -1,8 +1,14 @@
 from distutils.core import setup
-from Cython.Build import cythonize
- 
- 
+from distutils.extension import Extension
+from Cython.Distutils import build_ext
+
+ext_modules=[
+    Extension("simulation",
+              ["simulation.pyx"],
+              libraries=["m"]) # Unix-like specific
+]
 setup(
   name = 'Simulation',
-  ext_modules = cythonize("*.pyx")
+  cmdclass = {"build_ext": build_ext},
+  ext_modules = ext_modules
 )
