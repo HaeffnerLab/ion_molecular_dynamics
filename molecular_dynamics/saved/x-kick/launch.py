@@ -2,20 +2,24 @@
 python setup.py build_ext --inplace
 '''
 
-import simulation
+from simulation import simulator
 import numpy as np
-from simulation_parameters import simulation_parameters as p
+from simulation_parameters import simulation_parameters
 from equilbrium_positions import equilibrium_positions as equil
 import time
 
-starting_positions = np.zeros((p.number_ions, 3))
 
+p = simulation_parameters()
+simulation = simulator(p)
+
+starting_positions = np.zeros((p.number_ions, 3))
+starting_velocities = np.zeros((p.number_ions, 3))
 starting_positions[:, 0] = p.number_ions * [0]
 starting_positions[:, 1] = p.number_ions * [0]
-starting_positions[:, 2] = equil.get_positions(p.number_ions, p.f_z)
+starting_positions[:, 2] = equil.get_positions(p.number_ions, p.f_z, p)
 starting_positions[0, 0] = 1e-6
 start_time = t = time.time()
-output = simulation.simulation(starting_positions, random_seeding = 0)
+output,excitations = simulation.simulation(starting_positions, starting_velocities, random_seeding = 0)
 finish_time = time.time()
 print 'Simulation took {0:.2f} seconds'.format(finish_time - start_time)
 # print output[0,:]

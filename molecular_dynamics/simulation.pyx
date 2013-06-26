@@ -1,6 +1,5 @@
-from simulation_parameters import simulation_parameters as p
 import numpy as np
-from libc.math cimport sin, acos, cos, sqrt, M_PI
+from libc.math cimport sin, acos, cos, sqrt, M_PI, exp
 
 cdef class simulator(object):
 
@@ -20,9 +19,12 @@ cdef class simulator(object):
     cdef double SATURATION
     cdef double LASER_DETUNING
     cdef double [:] LASER_DIRECTION
+    cdef double [:] LASER_CENTER
     cdef double TRANSITION_K_MAG
+    cdef double LASER_WAIST
     
-    def __init__(self):
+    def __init__(self, parameters):
+        p = parameters
         self.TRANSITION_K_MAG = p.transition_k_mag
         self.LASER_DIRECTION = p.laser_direction
         self.LASER_DETUNING = p.laser_detuning
@@ -39,6 +41,8 @@ cdef class simulator(object):
         self.TIMESTEP = p.timestep
         self.NUMBER_IONS = p.number_ions
         self.TOTAL_STEPS = p.total_steps
+        self.LASER_WAIST = p.laser_waist
+        self.LASER_CENTER = p.laser_center
  
     cdef void calculate_acceleration(self, double [:, :] position, double [:, :] velocity, double [:, :] current_acceleration, double time, double [:, :] random_floats, char[:] excitation):
         '''
@@ -53,6 +57,7 @@ cdef class simulator(object):
         cdef double p_excited
         cdef double theta = 0 
         cdef double phi = 0
+        cdef double distance_to_laser_sq
         #acceleration due to the trap
         for i in range(self.NUMBER_IONS):
             current_acceleration[i, 0] = ( (1/2.)*(-self.W_X**2 + self.W_Y**2 + self.W_Z**2) - self.W_DRIVE * sqrt(self.W_X**2 + self.W_Y**2 + self.W_Z**2) * cos (self.W_DRIVE * time)) * position[i, 0]
@@ -86,6 +91,9 @@ cdef class simulator(object):
         for i in range(self.NUMBER_IONS):
             inst_detuning = self.LASER_DETUNING - self.TRANSITION_K_MAG * ( self.LASER_DIRECTION[0] * velocity[i, 0] + self.LASER_DIRECTION[1] * velocity[i, 1]+ self.LASER_DIRECTION[2] * velocity[i, 2]) #Delta + k . v
             gamma_laser = self.SATURATION /  (1. + (2 * inst_detuning /  self.GAMMA)**2) * self.GAMMA / 2.
+            #reduce gamma_laser due to finie waist of the beam
+            distance_to_laser_sq =  (position[i, 0] - self.LASER_CENTER[0])**2 + (position[i, 1] - self.LASER_CENTER[1])**2 + (position[i, 2] - self.LASER_CENTER[2])**2
+            gamma_laser = gamma_laser * exp(- distance_to_laser_sq / self.LASER_WAIST**2)
             if not excitation[i]:
                 #if atom is not currently excited, calculate probability to get excited
                 p_exc = gamma_laser * self.TIMESTEP
@@ -122,15 +130,14 @@ cdef class simulator(object):
                 else:
                     #atom stays excited
                     pass
-                     
      
     cdef void do_verlet_integration(self, double [:, :, :] positions, double [:, :, :] random_floats, char [:, :] excitations):
-        cdef double[:, :] current_position = positions[:,0,:]
+        cdef double[:, :] current_position = positions[:,1,:]
         initial_excitation = np.zeros(self.NUMBER_IONS, dtype = np.uint8)
         cdef char[:] current_excitation = initial_excitation
         initial_acceleration =  np.zeros((self.NUMBER_IONS, 3))
         cdef double[:, :] current_acceleration = initial_acceleration
-        current_velocity_np = np.zeros((self.NUMBER_IONS, 3))
+        current_velocity_np =  np.array(positions[:,1,:]) - np.array(positions[:,0,:])
         cdef double[:, :] current_velocity = current_velocity_np
         cdef int i
         cdef int j
@@ -149,11 +156,11 @@ cdef class simulator(object):
                 #cycle over coordinates
                 for k in range(3):
                     positions[j, i, k] = 2 * positions[j , i - 1, k] -  positions[j, i - 2, k] + current_acceleration[j, k] * self.TIMESTEP**2
-                    current_velocity[j, k] = (positions[j, i, k] - positions[j, i - 2, k]) / (2 * self.TIMESTEP)
+                    current_velocity[j, k] = (positions[j, i, k] - positions[j, i -2, k]) / (2 * self.TIMESTEP)
                 excitations[i,j] = current_excitation[j]
             current_position = positions[:,i,:]
          
-    def simulation(self, starting_position, random_seeding = None):
+    def simulation(self, starting_position, starting_velocities, random_seeding = None):
         assert starting_position.shape == (self.NUMBER_IONS, 3), "Incorrect starting position format"
         if random_seeding is not None:
             np.random.seed(random_seeding)
@@ -162,7 +169,7 @@ cdef class simulator(object):
         positions = np.zeros((self.NUMBER_IONS, self.TOTAL_STEPS, 3))
         excitations = np.zeros((self.TOTAL_STEPS, self.NUMBER_IONS), dtype = np.uint8)
         positions[:, 0, :] = starting_position
-        positions[:, 1, :] = starting_position
+        positions[:, 1, :] = starting_position + starting_velocities
         cdef double [:, :, :] positions_view = positions
         cdef double [:, :, :] random_float_view = random_floats
         cdef char [:,:] excitations_view = excitations

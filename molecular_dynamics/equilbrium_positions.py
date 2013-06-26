@@ -1,6 +1,4 @@
 import numpy as np
-from simulation_parameters import simulation_parameters as p
-
 '''
 known relative positions of the ions within a linear ion chain
 
@@ -32,7 +30,7 @@ class equilibrium_positions(object):
                     }
     
     @classmethod
-    def get_positions(cls, number_ions, trap_frequency):
+    def get_positions(cls, number_ions, trap_frequency, p):
         '''
         takes the trap frequency in Hz and returns the axial positions of an ion chain for that frequency
         '''
