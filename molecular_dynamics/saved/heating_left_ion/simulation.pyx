@@ -22,7 +22,6 @@ cdef class simulator(object):
     cdef double [:] LASER_CENTER
     cdef double TRANSITION_K_MAG
     cdef double LASER_WAIST
-    cdef int PULSED_LASER
     
     def __init__(self, parameters):
         p = parameters
@@ -44,7 +43,6 @@ cdef class simulator(object):
         self.TOTAL_STEPS = p.total_steps
         self.LASER_WAIST = p.laser_waist
         self.LASER_CENTER = p.laser_center
-        self.PULSED_LASER = int(p.pulsed_laser)
  
     cdef void calculate_acceleration(self, double [:, :] position, double [:, :] velocity, double [:, :] current_acceleration, double time, double [:, :] random_floats, char[:] excitation):
         '''
@@ -68,8 +66,6 @@ cdef class simulator(object):
         for i in range(self.NUMBER_IONS):
             current_acceleration[i, 0] = ( (1/2.)*(-self.W_X**2 + self.W_Y**2 + self.W_Z**2) - self.W_DRIVE * sqrt(self.W_X**2 + self.W_Y**2 + self.W_Z**2) * cos (self.W_DRIVE * time)) * position[i, 0]
             current_acceleration[i, 1] = ( (1/2.)*( self.W_X**2 - self.W_Y**2 + self.W_Z**2) + self.W_DRIVE * sqrt(self.W_X**2 + self.W_Y**2 + self.W_Z**2) * cos (self.W_DRIVE * time)) * position[i, 1]
-#             current_acceleration[i, 0] = - self.W_X**2 *  position[i, 0]
-#             current_acceleration[i, 1] = - self.W_Y**2 *  position[i, 1]
             current_acceleration[i, 2] = - self.W_Z**2 *  position[i, 2]
         #acceleration due to the coulombic repulsion
         for i in range(self.NUMBER_IONS):
@@ -99,9 +95,6 @@ cdef class simulator(object):
         for i in range(self.NUMBER_IONS):
             inst_detuning = self.LASER_DETUNING - self.TRANSITION_K_MAG * ( self.LASER_DIRECTION[0] * velocity[i, 0] + self.LASER_DIRECTION[1] * velocity[i, 1]+ self.LASER_DIRECTION[2] * velocity[i, 2]) #Delta + k . v
             gamma_laser = self.SATURATION /  (1. + (2 * inst_detuning /  self.GAMMA)**2) * self.GAMMA / 2.
-            if self.PULSED_LASER:
-                if (time * self.W_X * 1.025/ (2 * M_PI)) % 1.0 < 0.5:
-                    gamma_laser = 0.0
             #reducing gamma_laser due to finie waist of the beam  
             r_x = (self.LASER_CENTER[0] - position[i, 0])
             r_y = (self.LASER_CENTER[1] - position[i, 1])

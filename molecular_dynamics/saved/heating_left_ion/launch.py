@@ -8,8 +8,8 @@ from equilbrium_positions import equilibrium_positions as equil
 from matplotlib import pyplot
 
 doppler_average = np.zeros(299)
-heating_average_left = np.zeros(299)
-heating_average_right= np.zeros(299)
+heating_average_left = np.zeros(899)
+heating_average_right= np.zeros(899)
 
 total_to_average = 200
 for i in range(total_to_average):
@@ -26,13 +26,10 @@ for i in range(total_to_average):
     p.simulation_duration = 100e-6
     doppler_cooling_simulator = simulator(p)
     doppler_positions, doppler_excitations = doppler_cooling_simulator.simulation(starting_positions, starting_velocities, random_seeding = i)
-#     print doppler_positions[0, :, 0].mean()
-    
     #now do laser heating
     p.laser_detuning = +0.5 * p.transition_gamma
-    p.pulsed_laser = True
     p.saturation = 1.0
-    p.simulation_duration = 100e-6
+    p.simulation_duration = 300e-6
     #only heat leftmost ion, radially
     p.laser_direction = np.array([1.0, 0.0, 0.0])
     left_ion_z = equil.get_positions(p.number_ions, p.f_z, p)[0]
@@ -50,7 +47,7 @@ for i in range(total_to_average):
     time_axis_heat = time_axis_doppler[-1] + np.arange(heating_positions.shape[1]) * p.timestep * 10**6
     doppler_energy_x = doppler_velocities[0, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
     heat_energy_x_left = heat_velocities[0, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
-    heat_energy_x_right = heat_velocities[-1, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
+    heat_energy_x_right = heat_velocities[4, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
     # pyplot.title(r"5 ions, x - kick propagation, f_z = {} KHz".format(p.f_z / 10.**3), fontsize = 30)
     pyplot.xlabel(r'$\mu s$', fontsize = 30)
     pyplot.ylabel(r'Motional Quanta x', fontsize = 30)
@@ -93,7 +90,7 @@ for i in range(total_to_average):
      
 #     print np.average(energy_x)
 
-pyplot.title('Pulsed Heating left ion radially, 5 ion string', fontsize = 30)
+pyplot.title('Heating left ion radially, 5 ion string', fontsize = 30)
 pyplot.semilogy(xcenters_doppler, doppler_average / total_to_average, 'blue', label = 'global doppler cooling')
 pyplot.semilogy(ycenters_heat, heating_average_left / total_to_average, '--r', label = 'local doppler heating, left ion')
 pyplot.semilogy(ycenters_heat, heating_average_right / total_to_average, 'red', label = 'local doppler heating, right iont')
