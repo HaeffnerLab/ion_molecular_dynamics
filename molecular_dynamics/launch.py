@@ -11,7 +11,7 @@ doppler_average = np.zeros(299)
 heating_average_left = np.zeros(299)
 heating_average_right= np.zeros(299)
 
-total_to_average = 200
+total_to_average = 20
 for i in range(total_to_average):
     print 'ITERATION', i
     #starting at equilibrium positions
