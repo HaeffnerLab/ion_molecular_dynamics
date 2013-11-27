@@ -13,7 +13,7 @@ class simulation_parameters(object):
         self.f_z = 0.2 * 10**6#Hz
         #simulation parameters
         self.damping = 0 #optional velocity damping, useful for finding equlibrium positions
-        self.simulation_duration = 0.002#seconds
+        self.simulation_duration = 0.002 #seconds
         self.timestep = (1 / self.f_drve) /100#seconds
         #ion parameters
         self.mass = 40 * 1.6605402e-27 #40 amu in kg

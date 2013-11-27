@@ -7,9 +7,9 @@ from simulation_parameters import simulation_parameters
 from equilbrium_positions import equilibrium_positions as equil
 from matplotlib import pyplot
 
-doppler_average = np.zeros(299)
-heating_average = np.zeros(149)
-total_to_average = 200
+doppler_average = np.zeros(599)
+heating_average = np.zeros(599)
+total_to_average = 10
 for i in range(total_to_average):
     print 'ITERATION', i
     #starting at equilibrium positions
@@ -21,13 +21,13 @@ for i in range(total_to_average):
     starting_velocities = np.zeros((p.number_ions, 3))
     #first do doppler cooling to randomize starting positions
     p.laser_detuning = -.5 * p.transition_gamma
-    p.simulation_duration = 100e-6
+    p.simulation_duration = 200e-6
     doppler_cooling_simulator = simulator(p)
     doppler_positions, doppler_excitations = doppler_cooling_simulator.simulation(starting_positions, starting_velocities, random_seeding = i)
     #now do laser heating
     p.laser_detuning = +0.5 * p.transition_gamma
     p.saturation = 1.0
-    p.simulation_duration = 50e-6
+    p.simulation_duration = 200e-6
     p.laser_direction = np.array([1.0, 0.0, 0.0])
     starting_positions = doppler_positions[:,-1,:]
     starting_velocities =  doppler_positions[:,-1,:] -  doppler_positions[:,-2,:]

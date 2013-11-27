@@ -25,6 +25,9 @@ class simulation_parameters(object):
         self.laser_detuning = -.5 * self.transition_gamma
         self.laser_direction = np.array([1.0,1.0,1.0]); self.laser_direction = self.laser_direction / np.sqrt(np.sum(self.laser_direction))#normalized
         self.transition_k_mag =  2 * np.pi / (396.847 * 10**-9) 
+        self.laser_waist =  1.
+        self.pulsed_laser = False
+        self.laser_center = np.array([0.0,0.0,1.0])
     
     @property
     def total_steps(self):
