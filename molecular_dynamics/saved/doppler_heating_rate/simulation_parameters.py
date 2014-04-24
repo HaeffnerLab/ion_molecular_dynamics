@@ -8,13 +8,13 @@ class simulation_parameters(object):
         self.number_ions = 1
         #trap frequencies
         self.f_drve = 30.0 * 10**6#Hz
-        self.f_x = 3.0 * 10**6#MHz
-        self.f_y = 2.8 * 10**6#Hz
+        self.f_x = 2.2 * 10**6#MHz
+        self.f_y = 2.0 * 10**6#Hz
         self.f_z = 0.2 * 10**6#Hz
-        self.use_harmonic_approximation = False
+        self.use_harmonic_approximation = True
         #simulation parameters
         self.damping = 0 #optional velocity damping, useful for finding equlibrium positions
-        self.simulation_duration = 0.002#seconds
+        self.simulation_duration = 0.0001#seconds
         self.timestep = (1 / self.f_drve) /100#seconds
         #ion parameters
         self.mass = 40 * 1.6605402e-27 #40 amu in kg

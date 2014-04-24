@@ -13,7 +13,7 @@ doppler_heating_averaged = np.zeros(599)
 doppler_heating_averagaed_alt = np.zeros(599)
 
 
-total_to_average = 5
+total_to_average = 500
 for i in range(total_to_average):
     print 'ITERATION', i
     #starting at equilibrium positions
@@ -72,8 +72,8 @@ for i in range(total_to_average):
     doppler_heat_energy_x = doppler_heat_velocities[0, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
     doppler_heat_alt_energy_x = doppler_heat_velocoties_alt[0, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
     
-    pyplot.xlabel(r'$\mu s$', fontsize = 30)
-    pyplot.ylabel(r'Motional Quanta x', fontsize = 30)
+#     pyplot.xlabel(r'$\mu s$', fontsize = 30)
+#     pyplot.ylabel(r'Motional Quanta x', fontsize = 30)
     pyplot.tick_params(axis='both', labelsize = 20)
 
     def downsample(x, y, points):
@@ -94,12 +94,17 @@ for i in range(total_to_average):
     time_doppler_heating_alt += 50
     doppler_heating_averagaed_alt+=averaged_energy
     
+zero_time = 200
+pyplot.plot(time_doppler_cooling - zero_time, doppler_average / total_to_average, 'b', label = 'Doppler cooling')
+pyplot.plot(time_pulsed_heating - zero_time, pulsed_heating_averged / total_to_average, 'r', label = 'Pulsed excitation')
+pyplot.plot(time_pulsed_heating- zero_time, doppler_heating_averaged / total_to_average, 'r--', label = 'Doppler heating')
+# pyplot.plot(time_doppler_heating_alt, doppler_heating_averagaed_alt / total_to_average, 'r--', label = 'doppler heating')
 
-pyplot.plot(time_doppler_cooling, doppler_average / total_to_average, 'b', label = 'doppler cooling')
-pyplot.plot(time_pulsed_heating, pulsed_heating_averged / total_to_average, 'r', label = 'pulsed heating')
-pyplot.plot(time_pulsed_heating, doppler_heating_averaged / total_to_average, 'r--', label = 'doppler heating')
-pyplot.plot(time_doppler_heating_alt, doppler_heating_averagaed_alt / total_to_average, 'r--', label = 'doppler heating alt')
-
+pyplot.yscale('log')
 pyplot.grid(True, which = 'both')
-pyplot.legend(loc)
+pyplot.ylim(0,500)
+pyplot.xlim(-203,100)
+
+pyplot.legend(loc = 'upper left')
+pyplot.savefig('pulsed_vs_doppler_heating.pdf', dpi = 600)
 pyplot.show()

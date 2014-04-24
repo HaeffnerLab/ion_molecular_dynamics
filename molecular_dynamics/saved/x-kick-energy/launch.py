@@ -31,7 +31,7 @@ energy_left = velocities[0, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x
 print 'eleft'
 energy_right = velocities[-1, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
 print 'eright'
-energy_center = velocities[center_ion, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
+energy_center = velocities[-2, :, 0]**2 * p.mass * .5 / p.hbar / (2 * np.pi * p.f_x)
 print 'center'
 
 chunksize = 2000
@@ -69,7 +69,7 @@ pyplot.plot(time_axis_binned, energy_right, 'r', label = 'right ion')
 pyplot.plot(time_axis_binned, energy_center, 'k', label = 'center ion')
 pyplot.ylim(0,3)
 
-np.save('energy_left3', energy_left)
+np.save('energy_left5ms_5ions', energy_left)
 
 
 # pyplot.figure()
